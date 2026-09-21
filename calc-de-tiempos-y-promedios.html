@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+   
+  <head>
+       
+    <meta charset="UTF-8" />
+     
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lap Time Calculator</title>
+    <script src="calc-de-tiempos-y-promedios.js" defer></script>
+    <link rel="stylesheet" href="calc-de-tiempos-y-promedios.css" /></head
+  > 
+  <body>
+       
+    <main>
+      <section class="dashboard" id="dashboard">
+        <h1>calculadora de tiempos y promedios de vuelta</h1>
+        <button class="btn-nuevaSesion" id="btn-nuevaSesion">
+          Nueva Sesion
+        </button>
+        <div class="cambio-pestaña">
+          <button class="btn-dashboard" id="btn-dashboard">DASHBOARD</button>
+          <button class="btn-historial" id="btn-historial">HISTORIAL</button>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="header-card">
+              <h3>Circuito prueba nombre</h3>
+              <p>22/09/26 13:43</p>
+              <button class="entrar-sesion" id="btn-ir-a-sesion">
+                Entrar en la Sesion
+              </button>
+            </div>
+            <p>Mejor Vuelta: 1:32.456</p>
+            <p>Promedio de Vuelta: 1:35.645</p>
+            <p>Numero de vueltas: 14</p>
+            <p>Tu mejor vuelta es un 4.67% mas rapida que tu promedio</p>
+            <div class="barra-exterior">
+              <div class="barra-interior"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="header-card">
+              <h3>Circuito prueba nombre</h3>
+              <p>22/09/26 13:43</p>
+              <button class="entrar-sesion" id="btn-ir-a-sesion">
+                Entrar en la Sesion
+              </button>
+            </div>
+            <p>Mejor Vuelta: 1:32.456</p>
+            <p>Promedio de Vuelta: 1:35.645</p>
+            <p>Numero de vueltas: 14</p>
+            <p>Tu mejor vuelta es un 4.67% mas rapida que tu promedio</p>
+            <div class="barra-exterior">
+              <div class="barra-interior"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="header-card">
+              <h3>Circuito prueba nombre</h3>
+              <p>22/09/26 13:43</p>
+              <button class="entrar-sesion" id="btn-ir-a-sesion">
+                Entrar en la Sesion
+              </button>
+            </div>
+            <p>Mejor Vuelta: 1:32.456</p>
+            <p>Promedio de Vuelta: 1:35.645</p>
+            <p>Numero de vueltas: 14</p>
+            <p>Tu mejor vuelta es un 4.67% mas rapida que tu promedio</p>
+            <div class="barra-exterior">
+              <div class="barra-interior"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="header-card">
+              <h3>Circuito prueba nombre</h3>
+              <p>22/09/26 13:43</p>
+              <button class="entrar-sesion" id="btn-ir-a-sesion">
+                Entrar en la Sesion
+              </button>
+            </div>
+            <p>Mejor Vuelta: 1:32.456</p>
+            <p>Promedio de Vuelta: 1:35.645</p>
+            <p>Numero de vueltas: 14</p>
+            <p>Tu mejor vuelta es un 4.67% mas rapida que tu promedio</p>
+            <div class="barra-exterior">
+              <div class="barra-interior"></div>
+            </div>
+          </div>
+        </div>
+         
+      </section>
+
+      <section class="sesion-activa" id="sesionActiva">
+        <div class="columna-1">
+          <div class="caja-registros">
+            <div class="input-de-tiempos">
+              <label for="input-tiempo">Tiempo de vuelta:</label>        
+              <input type="text" id="input-tiempo" placeholder="ej: 1:32.654" />
+                
+            </div>
+            <div class="botones">
+              <div class="btn-tiempo">
+                <button id="btn-registrar">Registrar</button>      
+              </div>
+              <div class="btn-reset">
+                <button id="btn-resetear">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lista-vueltas">
+                 
+            <ul id="lista-tiempos">
+                     
+            </ul>
+                 
+          </div>
+
+          <div class="barra-progreso"></div>
+        </div>
+        <div class="columna-2">
+          <div class="caja-promedios">
+                        
+            <p id="mejor-tiempo">Vuelta Rapida: --:--.---</p>
+                     
+            <p id="promedio">Promedio de Vuelta: --:--.---</p>
+                     
+            <p id="peor-tiempo">Peor Vuelta: --:--.---</p>
+
+            <button id="btn-volver-dashboard"><--Dashboard</button>
+                   
+          </div>
+
+          <div class="grafico"></div>
+        </div>
+      </section>
+      <section class="historial" id="historial">
+        <h3>HISTORIAL</h3>
+        <button id="btn-volver-dashboard-historial">Volver al dashboard</button>
+        <div class="historial-grid" id="historial-grid"></div>
+      </section>
+    </main>
+     
+  </body>
+</html>
