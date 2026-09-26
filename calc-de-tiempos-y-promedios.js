@@ -14,6 +14,7 @@ const btnVolverDashboard = document.getElementById('btn-volver-dashboard');
 const btnVolverDashboardHistorial = document.getElementById('btn-volver-dashboard-historial');
 const btnHistorial = document.getElementById('btn-historial');
 const historialGrid = document.getElementById('historial-grid');
+const cards = document.querySelector('.cards');
 
 //segundos a -:--.---
   function formatearTiempo(segundosTotales) {
@@ -59,6 +60,59 @@ const historialGrid = document.getElementById('historial-grid');
       const promedioTexto = promediosVueltas(sesion.vueltas);
       textoPromedioVuelta.textContent = `Promedio de Vuelta: ${promedioTexto}`;
     }
+  }
+
+  function actualizarDashboard() {
+    cards.innerHTML = '';
+    const ultimas4Sesiones = sesiones.slice(-4);
+    for (const sesion of ultimas4Sesiones) {
+      const divCardDashboard = document.createElement('div');
+      divCardDashboard.className = 'card';
+      const divCardHeader = document.createElement('div');
+      divCardHeader.className = 'header-card';
+      const nombreH3 = document.createElement('h3');
+      nombreH3.textContent = sesion.nombre;
+      const fechaP = document.createElement('p');
+      fechaP.textContent = sesion.fecha;
+      const btnIrASesion = document.createElement('button');
+      btnIrASesion.textContent = 'Entrar en la Sesion';
+      const mejorVueltaDashboard = document.createElement('p');
+      const peorVueltaDashboard = document.createElement('p');
+      const promedioVueltaDashboard = document.createElement('p');
+
+     if (sesion.vueltas.length === 0){
+      mejorVueltaDashboard.textContent = "Vuelta Rapida: --:--.---";
+      peorVueltaDashboard.textContent = "Peor Vuelta: --:--.---";
+      promedioVueltaDashboard.textContent = "Promedio Vuelta: --:--.---"
+    } else {
+      const vueltaRapidaSegundos = Math.min(...sesion.vueltas);
+      const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
+      mejorVueltaDashboard.textContent = `Vuelta Rápida: ${vueltaRapidaTexto}`;
+
+      const vueltaLentaSegundos = Math.max(...sesion.vueltas);
+      const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
+      peorVueltaDashboard.textContent = `Vuelta Lenta: ${vueltaLentaTexto}`;
+
+      const promedioTexto = promediosVueltas(sesion.vueltas);
+      promedioVueltaDashboard.textContent = `Promedio de Vuelta: ${promedioTexto}`;
+    }
+
+    const barraExterior = document.createElement('div');
+    barraExterior.className = 'barra-exterior';
+    const barraInterior = document.createElement('div');
+    barraInterior.className = 'barra-interior';
+
+    divCardHeader.appendChild(nombreH3);
+    divCardHeader.appendChild(fechaP);
+    divCardHeader.appendChild(btnIrASesion);
+    barraExterior.appendChild(barraInterior);
+    divCardDashboard.appendChild(divCardHeader);
+    divCardDashboard.appendChild(mejorVueltaDashboard);
+    divCardDashboard.appendChild(peorVueltaDashboard);
+    divCardDashboard.appendChild(promedioVueltaDashboard);
+    divCardDashboard.appendChild(barraExterior);
+    cards.appendChild(divCardDashboard);
+  }
   }
 
 btnRegistrar.addEventListener('click', function() {
@@ -130,6 +184,7 @@ btnVolverDashboard.addEventListener('click', function() {
   dashboard.style.display = '';
   sesionActivada.style.display = 'none';
   historial.style.display = 'none';
+  actualizarDashboard();
 });
 btnVolverDashboardHistorial.addEventListener('click', function() {
   dashboard.style.display = '';
