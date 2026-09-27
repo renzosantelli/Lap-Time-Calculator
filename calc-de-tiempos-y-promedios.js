@@ -218,7 +218,7 @@ btnHistorial.addEventListener('click', function() {
 
   dashboard.style.display = 'none';
   sesionActivada.style.display = 'none';
-  historial.style.display = '';
+  historial.style.display = 'block';
   historialGrid.innerHTML = '';
 
   for (const sesion of sesiones) {
