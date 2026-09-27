@@ -80,6 +80,16 @@ h1 {
     font-size: 15px;
     height: 40px;
 }
+.barra-exterior {
+    width: 90%;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+.barra-interior {
+    border-radius: 8px;
+    height:100%;
+}
 /*-------------------------------------------------------*/
                     /*SESION ACTIVA*/
 /*-------------------------------------------------------*/

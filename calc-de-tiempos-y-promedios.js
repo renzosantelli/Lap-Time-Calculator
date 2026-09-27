@@ -59,9 +59,10 @@ const cards = document.querySelector('.cards');
 
       const promedioTexto = promediosVueltas(sesion.vueltas);
       textoPromedioVuelta.textContent = `Promedio de Vuelta: ${promedioTexto}`;
+
     }
   }
-
+  
   function actualizarDashboard() {
     cards.innerHTML = '';
     const ultimas4Sesiones = sesiones.slice(-4);
@@ -79,28 +80,41 @@ const cards = document.querySelector('.cards');
       const mejorVueltaDashboard = document.createElement('p');
       const peorVueltaDashboard = document.createElement('p');
       const promedioVueltaDashboard = document.createElement('p');
-
-     if (sesion.vueltas.length === 0){
-      mejorVueltaDashboard.textContent = "Vuelta Rapida: --:--.---";
-      peorVueltaDashboard.textContent = "Peor Vuelta: --:--.---";
-      promedioVueltaDashboard.textContent = "Promedio Vuelta: --:--.---"
-    } else {
-      const vueltaRapidaSegundos = Math.min(...sesion.vueltas);
-      const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
-      mejorVueltaDashboard.textContent = `Vuelta Rápida: ${vueltaRapidaTexto}`;
-
-      const vueltaLentaSegundos = Math.max(...sesion.vueltas);
-      const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
-      peorVueltaDashboard.textContent = `Vuelta Lenta: ${vueltaLentaTexto}`;
-
-      const promedioTexto = promediosVueltas(sesion.vueltas);
-      promedioVueltaDashboard.textContent = `Promedio de Vuelta: ${promedioTexto}`;
-    }
-
-    const barraExterior = document.createElement('div');
-    barraExterior.className = 'barra-exterior';
-    const barraInterior = document.createElement('div');
-    barraInterior.className = 'barra-interior';
+      const textoBarraDashboard = document.createElement('p');
+      
+      const barraExterior = document.createElement('div');
+      barraExterior.className = 'barra-exterior';
+      const barraInterior = document.createElement('div');
+      barraInterior.className = 'barra-interior';
+      
+      if (sesion.vueltas.length === 0){
+        mejorVueltaDashboard.textContent = "Vuelta Rapida: --:--.---";
+        peorVueltaDashboard.textContent = "Peor Vuelta: --:--.---";
+        promedioVueltaDashboard.textContent = "Promedio Vuelta: --:--.---"
+      } else {
+        const vueltaRapidaSegundos = Math.min(...sesion.vueltas);
+        const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
+        mejorVueltaDashboard.textContent = `Vuelta Rápida: ${vueltaRapidaTexto}`;
+        
+        const vueltaLentaSegundos = Math.max(...sesion.vueltas);
+        const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
+        peorVueltaDashboard.textContent = `Vuelta Lenta: ${vueltaLentaTexto}`;
+        
+        const promedioTexto = promediosVueltas(sesion.vueltas);
+        promedioVueltaDashboard.textContent = `Promedio de Vuelta: ${promedioTexto}`;
+        
+        
+        let suma = 0;
+        for (let i = 0; i < sesion.vueltas.length; i++)
+          suma = suma + sesion.vueltas[i];
+        const promedioSegundos = suma / sesion.vueltas.length;
+        const porcentaje = ((promedioSegundos - vueltaRapidaSegundos) / promedioSegundos) * 100;
+        const porcentajeModificado = porcentaje * 10;
+        textoBarraDashboard.textContent = `Tu vuelta rapida es un ${porcentaje.toFixed(2)}% mas rapida que tu promedio:`;
+        barraInterior.style.width = `${porcentajeModificado}%`
+        barraInterior.style.backgroundColor = 'green';
+      }
+      
 
     divCardHeader.appendChild(nombreH3);
     divCardHeader.appendChild(fechaP);
@@ -110,8 +124,17 @@ const cards = document.querySelector('.cards');
     divCardDashboard.appendChild(mejorVueltaDashboard);
     divCardDashboard.appendChild(peorVueltaDashboard);
     divCardDashboard.appendChild(promedioVueltaDashboard);
+    divCardDashboard.appendChild(textoBarraDashboard);
     divCardDashboard.appendChild(barraExterior);
     cards.appendChild(divCardDashboard);
+
+    btnIrASesion.addEventListener('click', function() {
+      seleccionarSesion(sesion.id);
+      dashboard.style.display = 'none';
+      sesionActivada.style.display = 'flex';
+      historial.style.display = 'none';
+      entrarSesion(sesion);
+    })
   }
   }
 
