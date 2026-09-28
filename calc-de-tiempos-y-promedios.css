@@ -133,14 +133,6 @@ button:focus {
     height: 100px;
     padding: 5px 10px;
 }
-.barra-progreso {
-    border: 3px solid #1B294B;
-    border-radius: 8px;
-    padding: 5px 10px;
-    height: 100px;
-    width: 740px;
-    box-sizing: border-box;
-}
 .lista-vueltas {
     display: flex;
     border: 3px solid #1B294B;
@@ -183,6 +175,31 @@ button:focus {
 }
 #btn-volver-dashboard {
     width: fit-content;
+}
+.barra-progreso {
+    border: 3px solid #1B294B;
+    border-radius: 8px;
+    padding: 5px 10px;
+    height: 100px;
+    width: 740px;
+    box-sizing: border-box;
+    position: relative;
+}
+.barra-exterior-sa {
+    border-radius: 8px;
+    height: 50px;
+    width: 90%;
+    background-color: #fff;
+    position: absolute;
+    bottom: 10px;
+}
+.barra-interior-sa {
+    height: 100%;
+    border-radius: 8px;
+}
+.textoBarraSA {
+    position: absolute;
+    top: 0px;
 }
 /*-------------------------------------------------------------------*/
 /*HISTORIAL*/

@@ -15,6 +15,7 @@ const btnVolverDashboardHistorial = document.getElementById('btn-volver-dashboar
 const btnHistorial = document.getElementById('btn-historial');
 const historialGrid = document.getElementById('historial-grid');
 const cards = document.querySelector('.cards');
+const barraProgresoSesionActiva = document.querySelector('.barra-progreso');
 
 //segundos a -:--.---
   function formatearTiempo(segundosTotales) {
@@ -138,6 +139,39 @@ const cards = document.querySelector('.cards');
   }
   }
 
+  function barraSesionActiva(sesion) {
+
+    barraProgresoSesionActiva.innerHTML = '';
+
+    const textoBarraSA = document.createElement('p');
+    textoBarraSA.className = 'textoBarraSA';
+    const barraExterior = document.createElement('div');
+    barraExterior.className = 'barra-exterior-sa';
+    const barraInterior = document.createElement('div');
+    barraInterior.className = 'barra-interior-sa';
+
+    if (sesion.vueltas.length < 2) {
+      barraProgresoSesionActiva.innerHTML = '';
+      return;
+    }
+    const ultimaVuelta = sesion.vueltas[sesion.vueltas.length - 1]
+    const mejorVuelta = Math.min(...sesion.vueltas.slice(0, -1));
+    const porcentaje = ((mejorVuelta - ultimaVuelta) / mejorVuelta) * 100;
+    const porcentajeAbsoluto = Math.abs(porcentaje);
+    if (porcentaje >= 0) {
+      barraInterior.style.backgroundColor = 'green';
+      barraInterior.style.width = `${porcentajeAbsoluto * 10}%`;
+      textoBarraSA.textContent = `Tu ultima vuelta es un ${porcentaje.toFixed(2)}% mas rapida que tu mejor vuelta:`
+    } else {
+      barraInterior.style.backgroundColor = 'red';
+      barraInterior.style.width = `${porcentajeAbsoluto * 10}%`;
+      textoBarraSA.textContent = `Tu ultima vuelta es un ${porcentajeAbsoluto.toFixed(2)}% mas lenta que tu mejor vuelta:`
+    }
+    barraExterior.appendChild(barraInterior);
+    barraProgresoSesionActiva.appendChild(barraExterior);
+    barraProgresoSesionActiva.appendChild(textoBarraSA);
+  }
+
 btnRegistrar.addEventListener('click', function() {
 
   console.log('¡boton pulsado!');
@@ -172,6 +206,7 @@ btnRegistrar.addEventListener('click', function() {
   textoPromedioVuelta.textContent = `Promedio vuelta: ${promedioTexto}`;
 
   inputTiempo.value = '';
+  barraSesionActiva(sesionActiva);
 });
 
 btnResetear.addEventListener('click', function() {
