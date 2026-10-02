@@ -16,6 +16,8 @@ const btnHistorial = document.getElementById('btn-historial');
 const historialGrid = document.getElementById('historial-grid');
 const cards = document.querySelector('.cards');
 const barraProgresoSesionActiva = document.querySelector('.barra-progreso');
+const padreCajaBarrasGrafico = document.getElementById('padreCajaBarrasGrafico');
+const cajaBarrasGrafico = document.getElementById('cajaBarrasGrafico');
 
 //SEGUNDOS A --:--.---
   function formatearTiempo(segundosTotales) {
@@ -62,6 +64,8 @@ const barraProgresoSesionActiva = document.querySelector('.barra-progreso');
       const promedioTexto = promediosVueltas(sesion.vueltas);
       textoPromedioVuelta.textContent = `Promedio de Vuelta: ${promedioTexto}`;
     }
+    grafico(sesion);
+    barraSesionActiva(sesion);
   }
 //ACTUALIZAR LAS CARDS DEL DASHBOARD
   function actualizarDashboard() {
@@ -171,6 +175,34 @@ const barraProgresoSesionActiva = document.querySelector('.barra-progreso');
     barraProgresoSesionActiva.appendChild(barraExterior);
     barraProgresoSesionActiva.appendChild(textoBarraSA);
   }
+//FUNCION DE LA GRAFICA 
+function grafico(sesion) {
+  cajaBarrasGrafico.innerHTML = '';
+  const vueltaRapida = Math.min(...sesion.vueltas);
+  const vueltaLenta = Math.max(...sesion.vueltas);
+  const diferenciaVueltas = vueltaLenta - vueltaRapida;
+  if (sesion.vueltas.length === 0) {
+    cajaBarrasGrafico.innerHTML = ''
+    return;
+  } else if (diferenciaVueltas === 0) {
+    for (const vuelta of sesion.vueltas) {
+      const barrasGrafico = document.createElement('div');
+      barrasGrafico.className = 'barrasGrafico';
+      const alturaBarras = 100;
+      barrasGrafico.style.height = `${alturaBarras}%`;
+      cajaBarrasGrafico.appendChild(barrasGrafico);
+    }
+  } else {
+    for (const vuelta of sesion.vueltas) {
+      const barrasGrafico = document.createElement('div');
+      barrasGrafico.className = 'barrasGrafico';
+      const alturaBarras = ((1-(vuelta - vueltaRapida) / diferenciaVueltas)) * 99 + 1;
+      barrasGrafico.style.height = `${alturaBarras}%`;
+      cajaBarrasGrafico.appendChild(barrasGrafico);
+    }
+  }
+}
+
 //BOTON DE REGISTRAR EN SESION ACTIVA
 btnRegistrar.addEventListener('click', function() {
 
@@ -208,6 +240,7 @@ btnRegistrar.addEventListener('click', function() {
 
   inputTiempo.value = '';//VACIA EL VALOR ANTERIOR DEL INPUT
   barraSesionActiva(sesionActiva);
+  grafico(sesionActiva);
 });
 //BTN DE RESETEAR LA SESION ACTIVA
 btnResetear.addEventListener('click', function() {
@@ -217,6 +250,8 @@ btnResetear.addEventListener('click', function() {
   textoVueltaRapida.textContent = "Vuelta Rapida: --:--.---";
   textoPeorVuelta.textContent = "Peor Vuelta: --:--.---";
   textoPromedioVuelta.textContent = "Promedio de Vuelta: --:--.---";
+  grafico(sesionActiva);
+  barraSesionActiva(sesionActiva);
 });
 const sesiones = [];
 let sesionActivaId = null;//VALOR QUE SIGNIFICA QUE NO HAY NADA. PERO ESTA HECHO A PROPOSITO

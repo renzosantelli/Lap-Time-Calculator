@@ -172,6 +172,8 @@ button:focus {
     border-radius: 8px;
     padding-left: 10px;
     height: calc(50% - 40px);
+    padding-top: 20px;
+    margin-bottom: 40px;
 }
 #btn-volver-dashboard {
     width: fit-content;
@@ -200,6 +202,16 @@ button:focus {
 .textoBarraSA {
     position: absolute;
     top: 0px;
+}
+.cajaBarrasGrafico {
+    display: flex;
+    align-items: flex-end;
+    height: 280px;
+    gap: 10px;
+}
+.barrasGrafico {
+    width: 10px;
+    background-color: #fff;
 }
 /*-------------------------------------------------------------------*/
 /*HISTORIAL*/
