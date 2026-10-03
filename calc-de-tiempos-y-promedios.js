@@ -1,4 +1,5 @@
 //juntando HTML y JS (DOM)
+const body = document.querySelector('body');
 const inputTiempo = document.getElementById('input-tiempo');
 const btnRegistrar = document.getElementById('btn-registrar');
 const btnResetear = document.getElementById('btn-resetear');
@@ -138,6 +139,7 @@ const cajaBarrasGrafico = document.getElementById('cajaBarrasGrafico');
       dashboard.style.display = 'none';
       sesionActivada.style.display = 'flex';
       historial.style.display = 'none';
+      body.style.overflowY = 'hidden';
       entrarSesion(sesion);
     })
   }
@@ -273,12 +275,14 @@ btnNuevaSesion.addEventListener('click', function() {
   dashboard.style.display = 'none';
   sesionActivada.style.display = 'flex';
   historial.style.display = 'none';
+  body.style.overflowY = 'hidden';
   const sesionActiva = sesiones.find(sesion => sesion.id === sesionActivaId);
   entrarSesion(sesionActiva);
 });
 //BTN DE VOLVER AL DASHBOARD DESDE LA SESION ACTIVA
 btnVolverDashboard.addEventListener('click', function() {
   dashboard.style.display = '';
+  body.style.overflowY = 'visible'
   sesionActivada.style.display = 'none';
   historial.style.display = 'none';
   actualizarDashboard();
@@ -286,6 +290,7 @@ btnVolverDashboard.addEventListener('click', function() {
 //BTN DE VOLVER AL DASHBOARD DESDE EL HISTORIAL
 btnVolverDashboardHistorial.addEventListener('click', function() {
   dashboard.style.display = '';
+  body.style.overflowY = 'visible'
   sesionActivada.style.display = 'none';
   historial.style.display = 'none';
 });
@@ -296,6 +301,7 @@ btnHistorial.addEventListener('click', function() {
   sesionActivada.style.display = 'none';
   historial.style.display = 'block';
   historialGrid.innerHTML = '';
+  body.style.overflowY = 'hidden';
 
   for (const sesion of sesiones) {
     const divCardHistorial = document.createElement('div');
@@ -317,6 +323,7 @@ btnHistorial.addEventListener('click', function() {
       historial.style.display = 'none';
       dashboard.style.display = 'none';
       sesionActivada.style.display = 'flex';
+      body.style.overflowY = 'hidden';
       entrarSesion(sesion);
     });
   }

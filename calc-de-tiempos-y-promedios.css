@@ -14,7 +14,7 @@ body {
   min-height: 100vh;
   color: var(--colorPrincipal);
   font-family: Helvetica, sans-serif;
-  overflow-y: hidden;
+  
 }
 main {
     position: relative;
@@ -22,9 +22,6 @@ main {
 /*-------------------------------------------------------*/
                      /*DASHBOARD*/
 /*-------------------------------------------------------*/
-/*.dashboard {
-    display: none;
-}*/
 h1 {
     text-transform: uppercase;
     font-size: 35px;
