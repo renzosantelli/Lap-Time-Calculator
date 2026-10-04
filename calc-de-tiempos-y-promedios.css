@@ -24,14 +24,31 @@ main {
 /*-------------------------------------------------------*/
 h1 {
     text-transform: uppercase;
-    font-size: 35px;
+    font-size: 40px;
     font-family: Verdana, Geneva, Tahoma, sans-serif !important;
     margin-left: 20px;
+    text-align: center;
+    letter-spacing: 3px;
+    word-spacing: 5px;
+}
+.mini-logo {
+    position: fixed;
+    font-weight: bold;
+    top: 0px;
+    left: 10px;
+    border: 4px solid #fff;
+    padding: 10px;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    place-items: center;
+    display: flex;
+
 }
 .btn-nuevaSesion {
     position: absolute;
     right: 115px;
-    top: 10px;
+    top: 8px;
     font-size: 25px;
 }
 .cambio-pestaña {
@@ -235,18 +252,15 @@ button:focus {
     display: flex;
     align-items: center;
     transform: translateY(-20px);
-    gap: 30px;
+    gap: 60px;
 }
 .historialH3 {
-    font-size: 35px;
+    font-size: 40px;
     letter-spacing: 3px;
     margin-left: 20px;
-    border: 3px solid #2563EB;
     width: fit-content;
-    border-radius: 8px;
-    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 #btn-volver-dashboard-historial {
     font-size: 20px;
-    height: 54.8px;
 }
