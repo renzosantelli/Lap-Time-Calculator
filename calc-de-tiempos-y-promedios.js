@@ -32,38 +32,47 @@ const cajaBarrasGrafico = document.getElementById('cajaBarrasGrafico');
     if (tiempos.length === 0) {
         return 0;
     }
-    let suma = 0;//VARIABLE QUE SUMA LOS TIEMPOS PARA HACER EL PROMEDIO, AHORA VALE 0 POR ESO ES UN LET Y NO CONST
-    for (let i = 0; i < tiempos.length; i++)//I SUMA(verbo sumar, no la variable) EN 1 CADA VEZ QUE LA CONDICION ES VERDADERA. CUANDO ES FALSA LA SUMA NO SE EJECUTA
-    //'I' SON LAS POSICIONES
-    suma = suma + tiempos[i];//SUMA EL VALOR DE LAS POSICIONES DE TIEMPOS Y LOS METE EN 'SUMA'
-    const promedioSegundos = suma / tiempos.length;//CALCULO DEL PROMEDIO. SE EJECUTA UNA VEZ QUE SUMA ESTE COMPLETO
+    const sumaTiempos = tiempos.reduce((suma, t) => {
+      return suma + t;
+    }, 0);
+    const promedioSegundos = sumaTiempos / tiempos.length;//CALCULO DEL PROMEDIO. SE EJECUTA UNA VEZ QUE SUMA ESTE COMPLETO
     return formatearTiempo(promedioSegundos);//DEVUELVE EL PROMEDIO FORMATEADO POR formatearTiempo
   }
+//FUNCTION DE MEJOR, PEOR Y PROMEDIO DE VUELTA
+function estadisticasVueltas(sesion) {
+  const vueltaRapidaSegundos = Math.min(...sesion.vueltas);
+  const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
+
+  const vueltaLentaSegundos = Math.max(...sesion.vueltas);
+  const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
+
+  const promedioTexto = promediosVueltas(sesion.vueltas);
+
+  const estadisticasVuelta = {mejor: vueltaRapidaTexto, mejorSegundos: vueltaRapidaSegundos, peor: vueltaLentaTexto, promedio: promedioTexto};
+
+  return estadisticasVuelta;
+}
+//FUNCTION DE MOSTRAR ESTADISTICAS VUELTAS
+function mostrarEstadisticasVueltas (estadisticasVuelta) {
+  textoVueltaRapida.textContent = `Vuelta Rápida: ${estadisticasVuelta.mejor}`;
+  textoPeorVuelta.textContent = `Vuelta Lenta: ${estadisticasVuelta.peor}`;
+  textoPromedioVuelta.textContent = `Promedio de Vuelta: ${estadisticasVuelta.promedio}`;
+}
 //FUNCION DE ENTRAR SESION
   function entrarSesion(sesion) {
     listaTiempos.innerHTML = '';//VACIA LOS TIEMPOS DE OTRAS SESIONES
-    let contadorVuelta = 1;
-    for (const vueltas of sesion.vueltas) {
+    sesion.vueltas.forEach((v, i) => {
       const nuevaVuelta = document.createElement('li');
-      nuevaVuelta.textContent = `Vuelta ${contadorVuelta}: ${formatearTiempo(vueltas)}`;
+      nuevaVuelta.textContent = `Vuelta ${i + 1}: ${formatearTiempo(v)}`;
       listaTiempos.appendChild(nuevaVuelta);//AGREGA NUEVA VUELTA A LA LISTA DE TIEMPOS
-      contadorVuelta = contadorVuelta + 1;//HACE QUE EL CONTADOR SUBA EN 1 POR CADA VUELTA
-    }
+    });
     if (sesion.vueltas.length === 0) {
       textoVueltaRapida.textContent = "Vuelta Rapida: --:--.---";
       textoPeorVuelta.textContent = "Peor Vuelta: --:--.---";
-      textoPromedioVuelta.textContent = "Promedio Vuelta: --:--.---"
+      textoPromedioVuelta.textContent = "Promedio Vuelta: --:--.---";
     } else {//SI LA LENGTH DE VUELTAS NO ES 0
-      const vueltaRapidaSegundos = Math.min(...sesion.vueltas);
-      const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
-      textoVueltaRapida.textContent = `Vuelta Rápida: ${vueltaRapidaTexto}`;
-
-      const vueltaLentaSegundos = Math.max(...sesion.vueltas);
-      const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
-      textoPeorVuelta.textContent = `Vuelta Lenta: ${vueltaLentaTexto}`;
-
-      const promedioTexto = promediosVueltas(sesion.vueltas);
-      textoPromedioVuelta.textContent = `Promedio de Vuelta: ${promedioTexto}`;
+      const datosVueltas = estadisticasVueltas(sesion);
+      mostrarEstadisticasVueltas(datosVueltas);
     }
     grafico(sesion);
     barraSesionActiva(sesion);
@@ -98,23 +107,16 @@ const cajaBarrasGrafico = document.getElementById('cajaBarrasGrafico');
         peorVueltaDashboard.textContent = "Peor Vuelta: --:--.---";
         promedioVueltaDashboard.textContent = "Promedio Vuelta: --:--.---"
       } else {
-        const vueltaRapidaSegundos = Math.min(...sesion.vueltas);
-        const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
-        mejorVueltaDashboard.textContent = `Vuelta Rápida: ${vueltaRapidaTexto}`;
-        
-        const vueltaLentaSegundos = Math.max(...sesion.vueltas);
-        const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
-        peorVueltaDashboard.textContent = `Vuelta Lenta: ${vueltaLentaTexto}`;
-        
-        const promedioTexto = promediosVueltas(sesion.vueltas);
-        promedioVueltaDashboard.textContent = `Promedio de Vuelta: ${promedioTexto}`;
-        
+        const datosVueltas = estadisticasVueltas(sesion);
+        mejorVueltaDashboard.textContent = `Vuelta Rapida: ${datosVueltas.mejor}`;
+        peorVueltaDashboard.textContent = `Vuelta Lenta: ${datosVueltas.peor}`;
+        promedioVueltaDashboard.textContent = `Promedio de Vuelta: ${datosVueltas.promedio}`;
         //BARRA DE PROGRESO DEL DASHBOARD
-        let suma = 0;
-        for (let i = 0; i < sesion.vueltas.length; i++)
-          suma = suma + sesion.vueltas[i];
-        const promedioSegundos = suma / sesion.vueltas.length;//CALCULO DEL PROMEDIO EN SEGUNDOS
-        const porcentaje = ((promedioSegundos - vueltaRapidaSegundos) / promedioSegundos) * 100;//CALCULO DEL PORCENTAJE *100 PORQUE SI NO SERIA UN NUMERO MUY PEQUEÑO
+        const sesionVueltas = sesion.vueltas.reduce((suma, sV) => {
+          return suma + sV;
+        } , 0);
+        const promedioSegundos = sesionVueltas / sesion.vueltas.length;//CALCULO DEL PROMEDIO EN SEGUNDOS
+        const porcentaje = ((promedioSegundos - datosVueltas.mejorSegundos) / promedioSegundos) * 100;//CALCULO DEL PORCENTAJE *100 PORQUE SI NO SERIA UN NUMERO MUY PEQUEÑO
         const porcentajeModificado = porcentaje * 10;//LO MODIFICA *10 POR AJUSTE DE DISEÑO. AGRANDA EL ESPACIO QUE OCUPA EL PORCENTAJE POR 10. FUNCIONA MIENTRAS LA DIFERENCIA SEA DE MAX 10%
         textoBarraDashboard.textContent = `Tu vuelta rapida es un ${porcentaje.toFixed(2)}% mas rapida que tu promedio:`;
         barraInterior.style.width = `${porcentajeModificado}%`
@@ -186,22 +188,17 @@ function grafico(sesion) {
   if (sesion.vueltas.length === 0) {
     cajaBarrasGrafico.innerHTML = ''
     return;
-  } else if (diferenciaVueltas === 0) {
-    for (const vuelta of sesion.vueltas) {
+  }  else {
+    sesion.vueltas.forEach(v => {
       const barrasGrafico = document.createElement('div');
       barrasGrafico.className = 'barrasGrafico';
-      const alturaBarras = 100;
-      barrasGrafico.style.height = `${alturaBarras}%`;
+      let altura = ((1-(v - vueltaRapida) / diferenciaVueltas)) * 99 + 1;
+      if (diferenciaVueltas === 0) {
+        altura = 100;
+      }
+      barrasGrafico.style.height = `${altura}%`;
       cajaBarrasGrafico.appendChild(barrasGrafico);
-    }
-  } else {
-    for (const vuelta of sesion.vueltas) {
-      const barrasGrafico = document.createElement('div');
-      barrasGrafico.className = 'barrasGrafico';
-      const alturaBarras = ((1-(vuelta - vueltaRapida) / diferenciaVueltas)) * 99 + 1;
-      barrasGrafico.style.height = `${alturaBarras}%`;
-      cajaBarrasGrafico.appendChild(barrasGrafico);
-    }
+    });
   }
 }
 
@@ -226,20 +223,8 @@ btnRegistrar.addEventListener('click', function() {
 
   listaTiempos.appendChild(nuevaVuelta);
 
-  const vueltaRapidaSegundos = Math.min(...sesionActiva.vueltas);
-  const vueltaRapidaTexto = formatearTiempo(vueltaRapidaSegundos);
-  console.log("vuelta rapida", vueltaRapidaTexto);
-
-  textoVueltaRapida.textContent = `Vuelta rápida: ${vueltaRapidaTexto}`;
-
-  const vueltaLentaSegundos = Math.max(...sesionActiva.vueltas);
-  const vueltaLentaTexto = formatearTiempo(vueltaLentaSegundos);
-
-  textoPeorVuelta.textContent = `Vuelta lenta: ${vueltaLentaTexto}`;
-
-  const promedioTexto = promediosVueltas(sesionActiva.vueltas);
-  textoPromedioVuelta.textContent = `Promedio vuelta: ${promedioTexto}`;
-
+  const datosVueltas = estadisticasVueltas(sesionActiva);
+  mostrarEstadisticasVueltas(datosVueltas);
   inputTiempo.value = '';//VACIA EL VALOR ANTERIOR DEL INPUT
   barraSesionActiva(sesionActiva);
   grafico(sesionActiva);
